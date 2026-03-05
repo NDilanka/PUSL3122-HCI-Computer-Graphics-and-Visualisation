@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FurniSpace — My Designs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel = "stylesheet" href="../css/designer.css"/>
+  <link rel="stylesheet" href="../css/saved-design.css"/>
+  <style>
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-btn {
+      padding: 6px 16px;
+      border: 1.5px solid var(--warm);
+      background: var(--cream);
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      transition: all var(--transition);
+    }
+    .filter-btn:hover  { border-color: var(--cognac); color: var(--cognac); }
+    .filter-btn.active { background: var(--cognac); color: white; border-color: var(--cognac); }
+
+    .designs-count {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      margin-bottom: 1.2rem;
+      font-weight: 300;
+    }
+
+    .view-toggle-bar {
+      display: flex;
+      gap: 4px;
+      background: var(--cream);
+      border-radius: var(--radius-sm);
+      padding: 3px;
+    }
+    .view-btn {
+      padding: 6px 12px;
+      border: none;
+      background: transparent;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      transition: all var(--transition);
+    }
+    .view-btn.active {
+      background: var(--white);
+      color: var(--cognac);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* List view */
+    .designs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .design-list-item {
+      background: var(--white);
+      border: 1.5px solid var(--warm);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+    .design-list-item:hover {
+      border-color: var(--warm-dk);
+      box-shadow: var(--shadow-sm);
+      transform: translateX(3px);
+    }
+
+    .list-preview {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--radius-sm);
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      flex-shrink: 0;
+      border: 1px solid var(--warm);
+    }
+
+    .list-info { flex: 1; }
+    .list-info h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 2px; }
+    .list-info p  { font-size: 0.78rem; color: var(--text-lt); }
+
+    .list-actions { display: flex; gap: 7px; }
+
+    /* New design CTA banner */
+    .new-design-banner {
+      background: linear-gradient(135deg, var(--cognac-dk), var(--cognac));
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .new-design-banner::before {
+      content: '⬡';
+      position: absolute;
+      right: 2rem;
+      font-size: 8rem;
+      color: rgba(255,255,255,0.05);
+      line-height: 1;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .banner-text h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      color: var(--white);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .banner-text p {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.9rem;
+      font-weight: 300;
+    }
+
+    .banner-btn {
+      background: var(--gold);
+      color: var(--white);
+      border: none;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      white-space: nowrap;
+      transition: all var(--transition);
+      position: relative;
+      z-index: 1;
+    }
+    .banner-btn:hover {
+      background: var(--gold-lt);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(200,151,60,0.4);
+    }
+  </style>
+</head>
+<body class="saved-page">
+
+  <!-- Top Nav -->
+  <nav class="top-nav">
+    <a href="dashboard.html" class="nav-logo">
+      <span class="logo-icon">⬡</span>
+      FurniSpace
+    </a>
+    <div class="nav-right">
+      <div class="nav-user">
+        <div class="user-avatar" id="nav-avatar">U</div>
+        <div>
+          <div style="font-weight:500;font-size:0.9rem;" id="nav-username">User</div>
+          <div class="nav-role-badge" id="nav-role">Customer</div>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="logout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <div class="saved-header">
+    <h1>My Designs</h1>
+    <div class="saved-controls">
+      <input type="text" class="search-box" id="search-input"
+             placeholder="Search designs..."
+             oninput="filterDesigns(this.value)"/>
+      <div class="view-toggle-bar">
+        <button class="view-btn active" id="grid-view-btn"
+                onclick="setView('grid', this)">⊞ Grid</button>
+        <button class="view-btn" id="list-view-btn"
+                onclick="setView('list', this)">≡ List</button>
+      </div>
+      <a href="designer.html" class="btn-save" style="text-decoration:none;white-space:nowrap;">
+        + New Design
+      </a>
+    </div>
+  </div>
+
+  <div class="saved-content">
+
+    <!-- Banner -->
+    <div class="new-design-banner anim-fade-up">
+      <div class="banner-text">
+        <h2>Create something new</h2>
+        <p>Start with a blank room or duplicate an existing design</p>
+      </div>
+      <a href="designer.html" class="banner-btn">Start Designing →</a>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="filter-bar" style="margin-bottom:1.2rem;" id="filter-bar">
+      <button class="filter-btn active" onclick="filterByShape('All', this)">All</button>
+      <button class="filter-btn" onclick="filterByShape('Rectangle', this)">Rectangle</button>
+      <button class="filter-btn" onclick="filterByShape('Square', this)">Square</button>
+      <button class="filter-btn" onclick="filterByShape('L-Shape', this)">L-Shape</button>
+    </div>
+
+    <p class="designs-count" id="designs-count">Loading designs...</p>
+
+    <!-- Designs container -->
+    <div id="designs-container" class="designs-grid stagger">
+      <!-- Loaded by JS -->
+    </div>
+
+  </div>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/savedesign.js"></script>
+  <script src="../js/ui.js"></script>
+  <script>
+    // Auth guard
+    const user = requireAuth();
+    if (user) populateNavUser();
+
+    let allDesigns   = [];
+    let currentView  = 'grid';
+    let searchQuery  = '';
+    let shapeFilter  = 'All';
+
+    function loadAllDesigns() {
+      allDesigns = getSavedDesigns().reverse(); // newest first
+      renderDesigns();
+    }
+
+    function renderDesigns() {
+      const container = document.getElementById('designs-container');
+      let filtered    = allDesigns;
+
+      if (searchQuery) {
+        filtered = filtered.filter(d =>
+          d.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      }
+      if (shapeFilter !== 'All') {
+        filtered = filtered.filter(d => d.roomShape === shapeFilter);
+      }
+
+      document.getElementById('designs-count').textContent =
+        `${filtered.length} design${filtered.length !== 1 ? 's' : ''}`;
+
+      if (!filtered.length) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <span class="empty-icon">🎨</span>
+            <p>${searchQuery || shapeFilter !== 'All' ? 'No designs match your filter.' : 'No saved designs yet.'}</p>
+            <a href="designer.html" class="btn-primary"
+               style="display:inline-block;width:auto;padding:12px 28px;text-decoration:none;">
+              Create First Design
+            </a>
+          </div>`;
+        return;
+      }
+
+      if (currentView === 'grid') {
+        container.className = 'designs-grid stagger';
+        container.innerHTML = filtered.map(d => buildGridCard(d)).join('');
+      } else {
+        container.className = 'designs-list stagger';
+        container.innerHTML = filtered.map(d => buildListItem(d)).join('');
+      }
+    }
+
+    function buildGridCard(d) {
+      return `
+        <div class="design-card anim-fade-up">
+          <div class="design-card-preview">${d.emoji || '🛋️'}</div>
+          <div class="design-card-body">
+            <h3>${escHtml(d.name)}</h3>
+            <p class="design-card-meta">${d.roomShape || 'Rectangle'} · ${d.date || 'Recently'} · ${(d.furniture||[]).length} items</p>
+            <div class="design-card-actions">
+              <a href="designer.html?id=${d.id}" class="btn-sm">✏️ Edit</a>
+              <a href="room3d.html" onclick="loadFor3D('${d.id}')" class="btn-sm">👁 3D</a>
+              <button class="btn-sm danger" onclick="deleteById('${d.id}')">🗑</button>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function buildListItem(d) {
+      return `
+        <div class="design-list-item anim-fade-up">
+          <div class="list-preview">${d.emoji || '🛋️'}</div>
+          <div class="list-info">
+            <h3>${escHtml(d.name)}</h3>
+            <p>${d.roomShape || 'Rectangle'} · ${d.date || 'Recently'} · ${(d.furniture||[]).length} items</p>
+          </div>
+          <div class="list-actions">
+            <a href="designer.html?id=${d.id}" class="btn-sm">✏️ Edit</a>
+            <button class="btn-sm danger" onclick="deleteById('${d.id}')">🗑</button>
+          </div>
+        </div>`;
+    }
+
+    function filterDesigns(query) {
+      searchQuery = query;
+      renderDesigns();
+    }
+
+    function filterByShape(shape, btn) {
+      shapeFilter = shape;
+      document.querySelectorAll('.filter-btn')
+        .forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderDesigns();
+    }
+
+    function setView(view, btn) {
+      currentView = view;
+      document.querySelectorAll('.view-btn')
+        .forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderDesigns();
+    }
+
+    function deleteById(id) {
+      confirmAction('Are you sure you want to delete this design? This cannot be undone.', () => {
+        deleteDesign(id);
+        allDesigns = allDesigns.filter(d => d.id !== id);
+        renderDesigns();
+        toastSuccess('Design deleted');
+      }, true);
+    }
+
+    function loadFor3D(id) {
+      const d = getDesignById(id);
+      if (d) {
+        sessionStorage.setItem('furni_2d_data', JSON.stringify({
+          roomConfig:     d.roomConfig || {},
+          furnitureItems: d.furniture  || []
+        }));
+      }
+    }
+
+    function escHtml(text) {
+      const d = document.createElement('div');
+      d.textContent = text;
+      return d.innerHTML;
+    }
+
+    loadAllDesigns();
+
+
+    
+  </script>
+</body>
+</html>

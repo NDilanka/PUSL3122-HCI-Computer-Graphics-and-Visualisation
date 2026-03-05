@@ -1,0 +1,377 @@
+/* ============================================================
+   FurniSpace — saved-designs.css  (Member 5)
+   CSS only for saved-designs.html sections
+   ============================================================ */
+
+/* ─── Saved Header ───────────────────────────────────────── */
+.saved-header {
+  background: #FFFFFF;
+  border-bottom: 1px solid #DDD0BC;
+  padding: 2rem 2.5rem 1.5rem;
+}
+
+.saved-header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2A1A0E;
+  margin-bottom: 1rem;
+}
+
+/* ─── Saved Controls (search + toggle + button) ──────────── */
+.saved-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Search box */
+.search-box {
+  flex: 1;
+  min-width: 200px;
+  padding: 9px 14px 9px 36px;
+  border: 1.5px solid #DDD0BC;
+  border-radius: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  color: #2A1A0E;
+  background: #F7F2EA
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237A5C46' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='M21 21l-4.35-4.35'/%3E%3C/svg%3E")
+    no-repeat 12px center;
+  outline: none;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+}
+.search-box:focus {
+  border-color: #C8973C;
+  box-shadow: 0 0 0 3px rgba(200,151,60,0.12);
+}
+
+/* View toggle bar */
+.view-toggle-bar {
+  display: flex;
+  gap: 4px;
+  background: #F7F2EA;
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.view-btn {
+  padding: 6px 14px;
+  border: none;
+  background: transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #7A5C46;
+  transition: all 0.22s ease;
+}
+.view-btn.active {
+  background: #FFFFFF;
+  color: #7C4A2D;
+  box-shadow: 0 2px 8px rgba(42,26,14,0.08);
+}
+.view-btn:not(.active):hover { color: #7C4A2D; }
+
+/* Save / New Design button */
+.btn-save {
+  background: linear-gradient(135deg, #C8973C, #E5C068);
+  color: #FFFFFF;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.22s ease;
+  box-shadow: 0 4px 16px rgba(200,151,60,0.30);
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-save:hover {
+  background: linear-gradient(135deg, #7C4A2D, #A0674A);
+  box-shadow: 0 4px 16px rgba(124,74,45,0.30);
+  transform: translateY(-1px);
+}
+
+/* ─── Saved Content Wrapper ──────────────────────────────── */
+.saved-content {
+  padding: 2rem 2.5rem;
+}
+
+/* ─── New Design Banner ──────────────────────────────────── */
+.new-design-banner {
+  background: linear-gradient(135deg, #5A3320, #7C4A2D);
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.new-design-banner::before {
+  content: '⬡';
+  position: absolute;
+  right: 2rem;
+  font-size: 8rem;
+  color: rgba(255,255,255,0.05);
+  line-height: 1;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.banner-text h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem;
+  color: #FFFFFF;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.banner-text p {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.9rem;
+  font-weight: 300;
+}
+
+.banner-btn {
+  background: #C8973C;
+  color: #FFFFFF;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  white-space: nowrap;
+  transition: all 0.22s ease;
+  position: relative;
+  z-index: 1;
+}
+.banner-btn:hover {
+  background: #E5C068;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(200,151,60,0.4);
+}
+
+/* ─── Filter Bar ─────────────────────────────────────────── */
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filter-btn {
+  padding: 6px 16px;
+  border: 1.5px solid #DDD0BC;
+  background: #F7F2EA;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #7A5C46;
+  transition: all 0.22s ease;
+}
+.filter-btn:hover  { border-color: #7C4A2D; color: #7C4A2D; }
+.filter-btn.active { background: #7C4A2D; color: #FFFFFF; border-color: #7C4A2D; }
+
+/* ─── Designs Count ──────────────────────────────────────── */
+.designs-count {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  color: #7A5C46;
+  margin-bottom: 1.2rem;
+  font-weight: 300;
+}
+
+/* ─── Designs Grid ───────────────────────────────────────── */
+.designs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 1.3rem;
+}
+
+/* ─── Designs List (list view) ───────────────────────────── */
+.designs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.design-list-item {
+  background: #FFFFFF;
+  border: 1.5px solid #DDD0BC;
+  border-radius: 12px;
+  padding: 1rem 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.22s ease;
+  cursor: pointer;
+}
+.design-list-item:hover {
+  border-color: #C8B89A;
+  box-shadow: 0 2px 8px rgba(42,26,14,0.08);
+  transform: translateX(3px);
+}
+
+.list-preview {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  background: #F7F2EA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  flex-shrink: 0;
+  border: 1px solid #DDD0BC;
+}
+
+.list-info { flex: 1; }
+.list-info h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2A1A0E;
+  margin-bottom: 2px;
+}
+.list-info p {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  color: #B09880;
+}
+
+.list-actions { display: flex; gap: 7px; }
+
+/* ─── Design Card (grid view) ────────────────────────────── */
+.design-card {
+  background: #FFFFFF;
+  border: 1.5px solid #DDD0BC;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+.design-card:hover {
+  box-shadow: 0 8px 40px rgba(42,26,14,0.16);
+  transform: translateY(-3px);
+  border-color: #C8B89A;
+}
+
+.design-card-preview {
+  background: linear-gradient(135deg, #EDE5D8, #F7F2EA);
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  border-bottom: 1px solid #DDD0BC;
+}
+
+.design-card-body { padding: 1.1rem; }
+.design-card-body h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2A1A0E;
+  margin-bottom: 2px;
+}
+.design-card-meta {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  color: #B09880;
+  margin-bottom: 1rem;
+}
+.design-card-actions { display: flex; gap: 7px; }
+
+/* ─── Small Buttons ──────────────────────────────────────── */
+.btn-sm {
+  flex: 1;
+  padding: 8px 6px;
+  border-radius: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  cursor: pointer;
+  border: 1.5px solid #DDD0BC;
+  background: transparent;
+  color: #7A5C46;
+  transition: all 0.22s ease;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: 500;
+}
+.btn-sm:hover {
+  background: #F7F2EA;
+  color: #7C4A2D;
+  border-color: #7C4A2D;
+}
+.btn-sm.danger:hover {
+  background: #FDF0EF;
+  color: #B83232;
+  border-color: #B83232;
+}
+
+/* ─── Empty State ────────────────────────────────────────── */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #7A5C46;
+}
+.empty-state .empty-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  display: block;
+  opacity: 0.55;
+}
+.empty-state p {
+  font-family: 'Outfit', sans-serif;
+  margin-bottom: 1.8rem;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+/* ─── Animations used in this page ──────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.anim-fade-up { animation: fadeInUp 0.5s ease both; }
+
+.stagger > *:nth-child(1) { animation-delay: 0.04s; }
+.stagger > *:nth-child(2) { animation-delay: 0.10s; }
+.stagger > *:nth-child(3) { animation-delay: 0.16s; }
+.stagger > *:nth-child(4) { animation-delay: 0.22s; }
+.stagger > *:nth-child(5) { animation-delay: 0.28s; }
+.stagger > *:nth-child(6) { animation-delay: 0.34s; }
+
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .saved-header   { padding: 1.5rem; }
+  .saved-content  { padding: 1.5rem; }
+  .saved-controls { flex-direction: column; align-items: stretch; }
+  .search-box     { min-width: unset; }
+  .new-design-banner { flex-direction: column; gap: 1rem; text-align: center; }
+  .designs-grid   { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 480px) {
+  .designs-grid { grid-template-columns: 1fr; }
+  .banner-text h2 { font-size: 1.4rem; }
+}

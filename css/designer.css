@@ -1,0 +1,290 @@
+/* ===========================
+   FurniSpace — Designer Styles
+   =========================== */
+
+.designer-page {
+  background: #F0EBE3;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Nav extras */
+.nav-center {
+  display: flex;
+  background: var(--cream);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.view-toggle {
+  padding: 7px 20px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-mid);
+  transition: all 0.2s;
+}
+.view-toggle.active {
+  background: var(--white);
+  color: var(--brown);
+  box-shadow: 0 1px 4px rgba(44,31,20,0.1);
+}
+
+.btn-save {
+  background: var(--gold);
+  color: var(--white);
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.btn-save:hover { background: var(--brown); }
+
+/* Layout */
+.designer-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Panels */
+.left-panel, .right-panel {
+  width: 260px;
+  background: var(--white);
+  overflow-y: auto;
+  border-right: 1px solid var(--warm);
+  flex-shrink: 0;
+}
+.right-panel { border-right: none; border-left: 1px solid var(--warm); }
+
+.panel-section {
+  padding: 1rem;
+  border-bottom: 1px solid var(--warm);
+}
+
+.panel-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-mid);
+  margin-bottom: 0.8rem;
+}
+
+.panel-hint {
+  font-size: 0.8rem;
+  color: var(--text-lt);
+  margin-bottom: 0.6rem;
+}
+
+/* Form elements inside panels */
+.panel-section .form-group { margin-bottom: 0.8rem; }
+.panel-section .form-group label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text);
+  display: block;
+  margin-bottom: 4px;
+}
+.panel-section input[type="number"],
+.panel-section input[type="text"],
+.panel-section select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1.5px solid var(--warm);
+  border-radius: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  color: var(--text);
+  background: var(--white);
+  outline: none;
+}
+.panel-section input:focus,
+.panel-section select:focus {
+  border-color: var(--gold);
+}
+
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.color-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.color-row input[type="color"] {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--warm);
+  border-radius: 6px;
+  padding: 2px;
+  cursor: pointer;
+  background: none;
+}
+.color-row span {
+  font-size: 0.8rem;
+  color: var(--text-mid);
+  font-family: monospace;
+}
+
+/* Furniture palette */
+.furniture-palette {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.furniture-item {
+  background: var(--cream);
+  border: 1.5px solid var(--warm);
+  border-radius: 8px;
+  padding: 8px 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+.furniture-item:hover {
+  border-color: var(--gold);
+  background: #FDF8F0;
+  transform: scale(1.03);
+}
+.furniture-item.adding {
+  border-color: var(--gold);
+  background: rgba(196,154,74,0.15);
+}
+.furniture-item-icon { font-size: 1.6rem; display: block; margin-bottom: 3px; }
+.furniture-item-name { font-size: 0.7rem; color: var(--text-mid); font-weight: 500; }
+
+/* Selected item panel */
+.selected-empty { color: var(--text-lt); font-size: 0.82rem; text-align: center; padding: 1rem 0; }
+
+.selected-controls { display: flex; flex-direction: column; gap: 8px; }
+.selected-controls label { font-size: 0.78rem; color: var(--text-mid); }
+.selected-controls input[type="color"] {
+  width: 100%;
+  height: 32px;
+  border: 1.5px solid var(--warm);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.selected-controls input[type="range"] { width: 100%; }
+
+/* Canvas area */
+.canvas-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #E8E0D6;
+}
+
+.canvas-toolbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--warm);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.tool-btn {
+  padding: 6px 12px;
+  border: 1.5px solid var(--warm);
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  color: var(--text-mid);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.tool-btn:hover { background: var(--cream); color: var(--brown); border-color: var(--brown); }
+.tool-btn.active { background: var(--brown); color: var(--white); border-color: var(--brown); }
+
+.toolbar-sep {
+  width: 1px;
+  height: 24px;
+  background: var(--warm);
+  margin: 0 4px;
+}
+.zoom-label { font-size: 0.8rem; color: var(--text-mid); margin-left: 4px; min-width: 40px; }
+
+.canvas-wrapper {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+#room-canvas {
+  cursor: crosshair;
+  display: block;
+  box-shadow: 0 8px 32px rgba(44,31,20,0.2);
+}
+
+.canvas-statusbar {
+  background: var(--white);
+  border-top: 1px solid var(--warm);
+  padding: 6px 16px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-mid);
+  flex-shrink: 0;
+}
+
+/* Info rows */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--warm);
+  color: var(--text-mid);
+}
+.info-row span:last-child { color: var(--text); font-weight: 500; }
+
+/* Items list */
+.items-list { display: flex; flex-direction: column; gap: 4px; }
+.item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 8px;
+  background: var(--cream);
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+.item-row-left { display: flex; align-items: center; gap: 6px; }
+.item-del-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: var(--text-lt);
+  padding: 2px 5px;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+.item-del-btn:hover { background: #FEF0EE; color: var(--error); }
+
+/* Scale slider */
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--brown);
+}
