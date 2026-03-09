@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FurniSpace — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body class="dashboard-page">
+
+  <!-- Top Nav -->
+  <nav class="top-nav">
+    <a href="dashboard.html" class="nav-logo">
+      <span class="logo-icon">⬡</span>
+      FurniSpace
+    </a>
+    <div class="nav-right">
+      <div class="nav-user">
+        <div class="user-avatar" id="nav-avatar">U</div>
+        <div>
+          <div style="font-weight:500;font-size:0.9rem;" id="nav-username">User</div>
+          <div class="nav-role-badge" id="nav-role">Customer</div>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="logout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <!-- Dashboard Content -->
+  <main class="dashboard-content">
+
+    <div class="dashboard-welcome">
+      <h1>Good day, <span id="welcome-name">there</span> 👋</h1>
+      <p>What would you like to design today?</p>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <a href="designer.html?new=true" class="action-card" id="admin-only-card" style="display: none;">
+        <div class="action-card-icon">🛋️</div>
+        <h3>New Design</h3>
+        <p>Start a fresh room layout from scratch</p>
+      </a>
+      <a href="saved-designs.html" class="action-card">
+        <div class="action-card-icon">📐</div>
+        <h3>My Designs</h3>
+        <p>View and continue your saved designs</p>
+      </a>
+      <a href="designer.html?mode=3d" class="action-card">
+        <div class="action-card-icon">🏠</div>
+        <h3>3D Preview</h3>
+        <p>Jump straight into 3D room visualisation</p>
+      </a>
+      <a href="#" class="action-card" id="admin-only-card" style="display:none;">
+        <div class="action-card-icon">⚙️</div>
+        <h3>Admin Panel</h3>
+        <p>Manage users and furniture catalogue</p>
+      </a>
+    </div>
+
+    <!-- Recent Designs -->
+    <div class="section-header">
+      <h2>Recent Designs</h2>
+      <a href="saved-designs.html" style="font-size:0.9rem;color:var(--brown);text-decoration:none;">View all →</a>
+    </div>
+
+    <div class="designs-grid" id="designs-grid">
+      <!-- Loaded dynamically -->
+    </div>
+
+  </main>
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/savedesign.js"></script>
+  <script>
+    // Auth guard
+    const user = requireAuth();
+    if (user) {
+      populateNavUser();
+      document.getElementById('welcome-name').textContent = user.name || user.username;
+
+      // Show admin card if admin
+      if (user.role === 'admin') {
+        document.getElementById('admin-only-card').style.display = 'block';
+      }
+
+      // Load recent designs
+      loadRecentDesigns();
+    }
+
+    function loadRecentDesigns() {
+      const grid = document.getElementById('designs-grid');
+      const designs = getSavedDesigns();
+
+      if (designs.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">🎨</div>
+            <p>No designs yet. Create your first room design!</p>
+            <a href="designer.html" class="btn-primary" style="display:inline-block;width:auto;padding:12px 28px;text-decoration:none;">
+              Start Designing
+            </a>
+          </div>`;
+        return;
+      }
+
+      const recent = designs.slice(-6).reverse();
+      grid.innerHTML = recent.map(d => `
+        <div class="design-card">
+          <div class="design-card-preview">${d.emoji || '🛋️'}</div>
+          <div class="design-card-body">
+            <h3>${escapeHtml(d.name)}</h3>
+            <p class="design-card-meta">${d.roomShape || 'Rectangle'} · ${d.date || 'Recently'}</p>
+            <div class="design-card-actions">
+              <a href="designer.html?id=${d.id}" class="btn-sm">✏️ Edit</a>
+              <button class="btn-sm danger" onclick="deleteDesignById('${d.id}')">🗑 Delete</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function deleteDesignById(id) {
+      if (confirm('Delete this design?')) {
+        deleteDesign(id);
+        loadRecentDesigns();
+      }
+    }
+
+    function escapeHtml(text) {
+      const d = document.createElement('div');
+      d.textContent = text;
+      return d.innerHTML;
+    }
+  </script>
+  <script src="../js/ui.js"></script>
+</body>
+</html>
