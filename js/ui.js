@@ -1,8 +1,4 @@
-/**
- * FurniSpace — ui.js
- * UI components: toasts, modals, tooltips, loading, onboarding
- * Member 5 — UI/UX Design
- */
+
 
 // ─── Toast Notifications ───────────────────────────────────────
 function createToastContainer() {
@@ -45,7 +41,7 @@ function toastError(msg)   { showToast(msg, 'error', 4000); }
 function toastInfo(msg)    { showToast(msg, 'info'); }
 function toastWarn(msg)    { showToast(msg, 'warning', 4000); }
 
-// ─── Modal System ──────────────────────────────────────────────
+// Modal System 
 function showModal({ title, content, confirmLabel = 'Confirm', cancelLabel = 'Cancel',
                      onConfirm, onCancel, danger = false }) {
   removeModal();
