@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FurniSpace — Room Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/designer.css"/>
+</head>
+<body class="designer-page">
+
+  <!-- Top Nav -->
+  <nav class="top-nav">
+    <a href="dashboard.html" class="nav-logo">
+      <span class="logo-icon">⬡</span>
+      FurniSpace
+    </a>
+    <div class="nav-center">
+      <button class="view-toggle active" id="btn-2d" onclick="switchView('2d')">2D View</button>
+      <button class="view-toggle" id="btn-3d" onclick="switchView('3d')">3D View</button>
+    </div>
+    <div class="nav-right">
+      <button class="btn-save" onclick="saveCurrentDesign()">💾 Save</button>
+      <div class="nav-user">
+        <div class="user-avatar" id="nav-avatar">U</div>
+        <span id="nav-username">User</span>
+      </div>
+      <button class="btn-logout" onclick="logout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <div class="designer-layout">
+
+    <!-- Left Sidebar: Room Settings + Furniture Palette -->
+    <aside class="left-panel">
+
+      <div class="panel-section">
+        <h3 class="panel-title">🏠 Room Setup</h3>
+
+        <div class="form-group">
+          <label>Room Shape</label>
+          <select id="room-shape" onchange="updateRoom()">
+            <option value="rectangle">Rectangle</option>
+            <option value="square">Square</option>
+            <option value="lshape">L-Shape</option>
+          </select>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>Width (m)</label>
+            <input type="number" id="room-width" value="5" min="2" max="15" onchange="updateRoom()"/>
+          </div>
+          <div class="form-group">
+            <label>Height (m)</label>
+            <input type="number" id="room-height" value="4" min="2" max="15" onchange="updateRoom()"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Wall Colour</label>
+          <div class="color-row">
+            <input type="color" id="wall-color" value="#F5F0E8" onchange="updateRoom()"/>
+            <span id="wall-color-label">#F5F0E8</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Floor Colour</label>
+          <div class="color-row">
+            <input type="color" id="floor-color" value="#D4A96A" onchange="updateRoom()"/>
+            <span id="floor-color-label">#D4A96A</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h3 class="panel-title">🛋️ Furniture</h3>
+        <p class="panel-hint">Click to add to room</p>
+
+        <div class="furniture-palette" id="furniture-palette">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h3 class="panel-title">🎨 Selected Item</h3>
+        <div id="selected-panel" class="selected-empty">
+          <p>Click a furniture item in the room to edit it</p>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Main Canvas Area -->
+    <main class="canvas-area">
+
+        <div class="canvas-toolbar">
+            <button class="tool-btn active" id="tool-select" onclick="setTool('select')">↖ Select</button>
+            <button class="tool-btn" id="tool-move"   onclick="setTool('move')">✥ Move</button>
+            <button class="tool-btn" id="tool-rotate" onclick="setTool('rotate')">↻ Rotate</button>
+            <button class="tool-btn" id="tool-delete" onclick="setTool('delete')">🗑 Delete</button>
+            <div class="toolbar-sep"></div>
+            <button class="tool-btn" id="undo-btn" onclick="undo()" disabled>↩ Undo</button>
+            <button class="tool-btn" id="redo-btn" onclick="redo()" disabled>↪ Redo</button>
+            <div class="toolbar-sep"></div>
+            <button class="tool-btn active" id="snap-btn" onclick="toggleSnap()">⊞ Snap: ON</button>
+            <button class="tool-btn" onclick="clearAll()">✕ Clear</button>
+            <div class="toolbar-sep"></div>
+            <button class="tool-btn" onclick="zoomIn()">🔍+</button>
+            <button class="tool-btn" onclick="zoomOut()">🔍−</button>
+            <button class="tool-btn" onclick="resetZoom()">⊙ Reset</button>
+            <span class="zoom-label" id="zoom-label">100%</span>
+        </div>
+
+        <div class="canvas-wrapper" id="canvas-wrapper">
+            <canvas id="room-canvas"></canvas>
+        </div>
+
+      <div class="canvas-statusbar">
+        <span id="status-text">Ready — Click furniture to add it to the room</span>
+        <span id="item-count">Items: 0</span>
+      </div>
+
+    </main>
+
+    <!-- Right Panel: Design Info -->
+    <aside class="right-panel">
+
+      <div class="panel-section">
+        <h3 class="panel-title">📋 Design Info</h3>
+        <div class="form-group">
+          <label>Design Name</label>
+          <input type="text" id="design-name" value="My Room Design" placeholder="Enter design name"/>
+        </div>
+        <div class="info-row"><span>Shape:</span><span id="info-shape">Rectangle</span></div>
+        <div class="info-row"><span>Size:</span><span id="info-size">5m × 4m</span></div>
+        <div class="info-row"><span>Items:</span><span id="info-items">0</span></div>
+      </div>
+
+      <div class="panel-section">
+        <h3 class="panel-title">📐 Scale</h3>
+        <div class="form-group">
+          <label>Zoom Level</label>
+          <input type="range" id="scale-slider" min="50" max="200" value="100"
+                 oninput="setZoomFromSlider(this.value)"/>
+          <span id="scale-value">100%</span>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h3 class="panel-title">🪑 Room Items</h3>
+        <div id="items-list" class="items-list">
+          <p class="panel-hint">No items added yet</p>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <button class="btn-primary" onclick="saveCurrentDesign()" style="width:100%">💾 Save Design</button>
+        <button class="btn-secondary" onclick="window.location.href='dashboard.html'" 
+                style="width:100%;margin-top:8px;">← Back to Dashboard</button>
+      </div>
+
+    </aside>
+
+  </div>
+
+  
+
+  <script src="../js/auth.js"></script>
+  <script src="../js/savedesign.js"></script>
+  <script src="../js/room2d.js"></script>
+  
+  <script>
+    // Auth guard
+    const user = requireAuth();
+    if (user) populateNavUser();
+
+    // Check if loading existing design
+    const params   = new URLSearchParams(window.location.search);
+    const designId = params.get('id');
+    if (designId) loadDesignIntoCanvas(designId);
+  </script>
+</body>
+</html>
