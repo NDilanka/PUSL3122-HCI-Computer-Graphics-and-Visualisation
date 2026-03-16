@@ -1,3 +1,5 @@
+
+
 // Canvas Setup 
 const canvas  = document.getElementById('room-canvas');
 const ctx     = canvas.getContext('2d');
@@ -55,7 +57,11 @@ window.addEventListener('load', () => {
   }
 
   updateRoom();
-  setupCanvasEvents();
+  if (typeof initControls === 'function') {
+    initControls(); // control.js replaces setupCanvasEvents and palette building
+  } else {
+    setupCanvasEvents();
+  }
 });
 
 function restoreFromSession() {
