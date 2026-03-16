@@ -36,9 +36,6 @@ function initControls() {
 
   // Save initial state
   saveHistory();
-
-  // Build enhanced palette with categories
-  buildCategoryPalette();
 }
 
 // ─── Get Canvas Position ───────────────────────────────────────
@@ -160,8 +157,14 @@ function onControlMouseMove(e) {
 
   // Resizing
   if (Controls.isResizing && selectedItem) {
-    const dx = pos.x - Controls.resizeStartX;
-    const dy = pos.y - Controls.resizeStartY;
+    let dx = pos.x - Controls.resizeStartX;
+    let dy = pos.y - Controls.resizeStartY;
+
+    if (Controls.snapEnabled) {
+      dx = Math.round(dx / Controls.snapSize) * Controls.snapSize;
+      dy = Math.round(dy / Controls.snapSize) * Controls.snapSize;
+    }
+
     const MIN = 30;
 
     switch (Controls.resizeHandle) {
@@ -187,7 +190,6 @@ function onControlMouseMove(e) {
         break;
     }
 
-    if (Controls.snapEnabled) snapItem(selectedItem);
     drawRoom();
     return;
   }
@@ -198,14 +200,14 @@ function onControlMouseMove(e) {
     let nx = pos.x - Controls.dragOffsetX;
     let ny = pos.y - Controls.dragOffsetY;
 
-    // Clamp inside room
-    nx = Math.max(0, Math.min(nx, roomConfig.width - selectedItem.w));
-    ny = Math.max(0, Math.min(ny, roomConfig.height - selectedItem.h));
-
     selectedItem.x = nx;
     selectedItem.y = ny;
 
     if (Controls.snapEnabled) snapItem(selectedItem);
+
+    // Clamp inside room
+    selectedItem.x = Math.max(0, Math.min(selectedItem.x, roomConfig.width - selectedItem.w));
+    selectedItem.y = Math.max(0, Math.min(selectedItem.y, roomConfig.height - selectedItem.h));
 
     // Show position in status bar
     const mx = (selectedItem.x / 80).toFixed(1);
@@ -413,16 +415,19 @@ function onKeyDown(e) {
 
     // Ctrl+Z: undo
     case 'z':
+    case 'Z':
       if (e.ctrlKey || e.metaKey) { undo(); e.preventDefault(); }
       break;
 
     // Ctrl+Y: redo
     case 'y':
+    case 'Y':
       if (e.ctrlKey || e.metaKey) { redo(); e.preventDefault(); }
       break;
 
     // Ctrl+C: copy
     case 'c':
+    case 'C':
       if ((e.ctrlKey || e.metaKey) && selectedItem) {
         Controls.clipboard = duplicateFurnitureItem(selectedItem);
         setStatus('Copied ' + selectedItem.name);
@@ -432,6 +437,7 @@ function onKeyDown(e) {
 
     // Ctrl+V: paste
     case 'v':
+    case 'V':
       if ((e.ctrlKey || e.metaKey) && Controls.clipboard) {
         const item = duplicateFurnitureItem(Controls.clipboard);
         furnitureItems.push(item);
@@ -447,6 +453,7 @@ function onKeyDown(e) {
 
     // Ctrl+D: duplicate
     case 'd':
+    case 'D':
       if ((e.ctrlKey || e.metaKey) && selectedItem) {
         const d = duplicateFurnitureItem(selectedItem);
         furnitureItems.push(d);
@@ -469,6 +476,7 @@ function onKeyDown(e) {
 
     // S: toggle snap
     case 's':
+    case 'S':
       if (!e.ctrlKey) {
         Controls.snapEnabled = !Controls.snapEnabled;
         setStatus(`Snap: ${Controls.snapEnabled ? 'ON' : 'OFF'}`);
